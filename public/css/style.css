@@ -1,0 +1,10 @@
+th, td {
+    vertical-align: middle;
+}
+
+footer {
+    margin-bottom: 100px;
+    text-align: center;
+    font-size: medium;
+    font-weight: bold;
+}
