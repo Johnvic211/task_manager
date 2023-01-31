@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublishedTaskController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\SignupController;
@@ -23,7 +24,13 @@ Route::middleware('auth')->group(function(){
     Route::get('tasks-table', [TaskController::class, 'table'])->name('tasks.table');
 
     Route::get('published-tasks', [PublishedTaskController::class, 'index'])->name('published-tasks.index');
+
     Route::get('published-tasks/{task}', [PublishedTaskController::class, 'view'])->name('published-tasks.view');
+
     Route::get('published-tasks-table', [PublishedTaskController::class, 'table'])->name('published-tasks.table');
+
     Route::patch('published-tasks/{task}', [PublishedTaskController::class, 'update'])->name('published-tasks.update');
+
+    Route::get('profile/{user}', [ProfileController::class, 'index'])->name('profile.index');
+    Route::patch('profile/{user}', [ProfileController::class, 'update'])->name('profile.update');
 });

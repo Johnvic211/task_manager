@@ -15,14 +15,9 @@
             <p class="mx-3"><b>Deadline:</b>
                 {{ \Carbon\Carbon::parse($task->deadline)->format('M d, Y h:i A') }}
             </p>
-            <p class="mx-3"><b>Status:</b>
-                <span
-                @if ($task->status != 'Complete')
-                    class="text-danger"
-                @else
-                    class="text-success"
-                @endif>
-                    {{ $task->status }}
+            <p class="mx-3"><b>Progress:</b>
+                <span>
+                    {{ $task->status  }}% Complete
                 </span>
             </p>
         </div>

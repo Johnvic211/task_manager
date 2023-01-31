@@ -17,7 +17,8 @@ class TaskController extends Controller
 {
     public function index()
     {
-        return view('contents.task.index');
+        $user = User::select('id', 'name', 'email')->where('id', Auth::user()->id)->get();
+        return view('contents.task.index')->with('user', $user);
     }
 
     public function table()

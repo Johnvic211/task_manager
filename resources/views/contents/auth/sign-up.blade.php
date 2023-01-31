@@ -41,11 +41,17 @@
             <div class="form-floating mb-3">
                 <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
                 <label for="password">Password <span class="text-danger">*</span></label>
+                <span id="showEye">
+                    <i class='bx bxs-hide' id="eye" onclick="showPassword(pass, eye)"></i>
+                </span>
             </div>
 
             <div class="form-floating mb-3">
                 <input type="password" class="form-control" name="password_confirmation" id="password-confirmation" placeholder="Confirm Password" required>
                 <label for="password-confirmation">Confirm Password <span class="text-danger">*</span></label>
+                <span id="showEye">
+                    <i class='bx bxs-hide' id="eye1" onclick="showPassword(pass1, eye1)"></i>
+                </span>
             </div>
 
             @include('components.form_errors')

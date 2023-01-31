@@ -3,15 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
+use App\Http\Requests\UpdateTaskStatusRequest;
 
 class PublishedTaskController extends Controller
 {
     public function index() {
-        return view('contents.published.index');
+        $user = User::select('id', 'name', 'email')->where('id', Auth::user()->id)->get();
+
+        return view('contents.published.index')->with('user', $user);
     }
 
     public function table() {
@@ -24,30 +28,39 @@ class PublishedTaskController extends Controller
         }
 
         return DataTables::of($tasks)
+        ->addColumn('statuss', function($task){
+            return '
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: '. $task->status .'%;" aria-valuenow="'. $task->status .'" aria-valuemin="0" aria-valuemax="100">'.$task->status.'%</div>
+                </div>
+            ';
+        })
         ->addColumn('actions', function($task){
             $buttons = "<a class='btn btn-primary m-2'  href='". route('published-tasks.view', ['task'=>$task]) . "'>Read</a>";
 
-            if(Auth::user()->type == 'Employee' && $task->status != 'Complete'){
-                $buttons .= "<button class='btn btn-success' type='submit' onclick='task_complete(". $task->id .")'>Finish</button>";
+            if(Auth::user()->type == 'Employee' && $task->status != '100'){
+                $buttons .= "<button class='btn btn-success' type='submit' onclick='task_complete(". $task->id .")'>Update</button>";
             }
 
             return $buttons;
         })
-        ->rawColumns(['actions'])
+        ->rawColumns(['statuss','actions'])
         ->make(true);
     }
 
     public function view(Task $task) {
-        $published = $task->with('user')->first();
-        //return $published;
-        return view('contents.published.view')->with('task', $published);
+        return view('contents.published.view')->with('task', $task);
     }
 
-    public function update(Task $task) {
+    public function update(UpdateTaskStatusRequest $request, Task $task) {
         try {
             $task->update([
-                'status' => 'Complete'
+                'status' => $request->percent
             ]);
+
+            if($task->status < 100)
+                return redirect()->route('published-tasks.index')->with('success', $task->name . ' is now ' . $task->status . '% complete');
+
             return redirect()->route('published-tasks.index')->with('success', $task->name . ' has been completed.');
         } catch (\Throwable $th) {
             return back()->with('error', 'Oops something went wrong');

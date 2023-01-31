@@ -40,7 +40,6 @@
 
 @section('scripts')
 <script>
-
     function remove(id)
     {
         Swal.fire({

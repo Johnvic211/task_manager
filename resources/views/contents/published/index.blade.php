@@ -26,7 +26,7 @@
                     <th scope="col">TASK</th>
                     <th scope="col">ASSIGNED EMPLOYEE</th>
                     <th scope="col">DEADLINE</th>
-                    <th scope="col">STATUS</th>
+                    <th scope="col">PROGRESS</th>
                     <th scope="col">ACTION</th>
                 </tr>
             </thead>
@@ -42,16 +42,20 @@
     function task_complete(id)
     {
         Swal.fire({
-            title: 'Are you sure you already completed the task?',
-            text: "You won't be able to revert this!",
+            title: "Input the percentage % you've finished for the task (0-100)",
+            input: 'number',
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes!'
+            confirmButtonText: 'Submit',
+            inputAttributes: {
+                min: 0, max: 100
+            }
         }).then((result) => {
             if (result.isConfirmed) {
                 $form = $('<form id="complete-form" method="POST" action="/published-tasks/'+id+'"></form>')
+                $form.append('<input type="text" value="'+result.value+'" name="percent">')
                 $form.append('<input type="hidden" name="_method" value="PATCH">')
                 $form.append('<input type="hidden" name="_token" value="'+$("meta[name='csrf-token']").attr('content')+'">')
                 $('body').append($form)
@@ -69,9 +73,11 @@
             { data: 'name' },
             { data: 'employee_name' },
             { data: 'deadline' },
-            { data: 'status' },
+            { data: 'statuss' },
             { data: 'actions' },
         ]
     });
 </script>
+<script src="{{ asset('js/progress.js') }}"></script>
+
 @endsection

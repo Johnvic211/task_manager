@@ -8,3 +8,27 @@ footer {
     font-size: medium;
     font-weight: bold;
 }
+
+#showEye {
+    position: absolute;
+    right: 15px;
+    transform: translate(0,-50%);
+    top: 50%;
+    margin-top: 2px;
+    cursor: pointer;
+}
+
+#eye, #eye1 {
+    font-size: 25px;
+    color: #7a797e;
+}
+
+
+.progress {
+    height: 40px;
+}
+
+.progress-bar {
+    font-weight: bold;
+    text-align: center;
+}

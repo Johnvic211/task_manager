@@ -24,18 +24,20 @@
                                 <div class="col-md-12">
                                     <h1 style="text-align: center; margin-top: 100px">TASK MANAGER</h1>
                                     @yield('contents')
+                                    <div class="text-center">
+                                        <b>Johnvic D. Dela Cruz (Intern Programmer)</b>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </main>
                 </div>
         </div>
-
-        <footer>Johnvic D. Dela Cruz (Intern Programmer)</footer>
         <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
         <script src="//cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.1/sweetalert2.min.js" integrity="sha512-vCI1Ba/Ob39YYPiWruLs4uHSA3QzxgHBcJNfFMRMJr832nT/2FBrwmMGQMwlD6Z/rAIIwZFX8vJJWDj7odXMaw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="{{asset('/js/sidebar.js')}}"></script>
         @yield('scripts')
     </body>
 </html>
