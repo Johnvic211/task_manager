@@ -21,19 +21,33 @@ class PublishedTaskController extends Controller
     public function table() {
         if(Auth::user()->type == 'Employee') {
             $tasks = Task::join('users', 'users.id', 'tasks.employee_id')
-            ->select('tasks.id', 'tasks.name', 'users.name as employee_name', 'tasks.name', DB::raw('DATE_FORMAT(tasks.deadline, "%m-%d-%Y") as deadline'), 'tasks.status')->where('tasks.employee_id', Auth::user()->id);
+            ->select('tasks.id', 'tasks.name', 'users.name as users.name', DB::raw('DATE_FORMAT(tasks.deadline, "%m-%d-%Y") as deadline'), 'tasks.status')->where('tasks.employee_id', Auth::user()->id);
         } else {
             $tasks = Task::join('users', 'users.id', 'tasks.employee_id')
-            ->select('tasks.id', 'tasks.name', 'users.name as employee_name', 'tasks.name', DB::raw('DATE_FORMAT(tasks.deadline, "%m-%d-%Y") as deadline'), 'tasks.status');
+            ->select('tasks.id', 'tasks.name', 'users.name as users.name', DB::raw('DATE_FORMAT(tasks.deadline, "%m-%d-%Y") as deadline'), 'tasks.status');
         }
 
         return DataTables::of($tasks)
-        ->addColumn('statuss', function($task){
-            return '
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: '. $task->status .'%;" aria-valuenow="'. $task->status .'" aria-valuemin="0" aria-valuemax="100">'.$task->status.'%</div>
+        ->addColumn('progress', function($task){
+            $progress = $task->status;
+
+            $progressBar = '<div class="progress"><div class="progress-bar';
+
+            if($progress > -1 && $progress < 26){
+                $progressBar .= ' bg-danger';
+            } elseif($progress > 25 && $progress < 51){
+                $progressBar .= ' bg-warning';
+            } elseif($progress > 50 && $progress < 76){
+                $progressBar .= ' bg-info';
+            } elseif($progress > 75 && $progress < 101){
+                $progressBar .= ' bg-success';
+            }
+
+            $progressBar .= '" role="progressbar" style="width: '. $progress .'%;" aria-valuenow="'. $progress .'" aria-valuemin="0" aria-valuemax="100">'.$progress.'%</div>
                 </div>
             ';
+
+            return $progressBar;
         })
         ->addColumn('actions', function($task){
             $buttons = "<a class='btn btn-primary m-2'  href='". route('published-tasks.view', ['task'=>$task]) . "'>Read</a>";
@@ -44,7 +58,7 @@ class PublishedTaskController extends Controller
 
             return $buttons;
         })
-        ->rawColumns(['statuss','actions'])
+        ->rawColumns(['progress','actions'])
         ->make(true);
     }
 

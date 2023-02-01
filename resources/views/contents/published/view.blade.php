@@ -25,7 +25,7 @@
         <b>Notes/Description:</b>
         <p>{{ $task->description }}</p>
 
-        <a href="{{ route('published-tasks.index') }}" class="btn btn-secondary btn-md active mb-4" role="button" aria-pressed="true">< Go back</a>
+        <a href="{{ route('published-tasks.index') }}" class="btn btn-secondary btn-md active mb-4 mx-1" role="button" aria-pressed="true">< Back</a>
     </div>
 </div>
 @endsection

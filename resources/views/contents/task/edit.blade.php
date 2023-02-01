@@ -4,7 +4,7 @@
 
 <div class="container">
     <div class="mt-5">
-        <a href="{{ route('tasks.index') }}" class="btn btn-secondary btn-md active mb-4" role="button" aria-pressed="true">< Go back</a>
+        <a href="{{ route('tasks.index') }}" class="btn btn-secondary btn-md active mb-4" role="button" aria-pressed="true">< Back</a>
 
         <form action="{{ route('tasks.update', ['task' => $task]) }}" method="POST">
             @csrf
@@ -27,7 +27,7 @@
 
             <div style="display:flex;">
                 <div class="form-floating mb-3" style="min-width:49%; margin-right:2%">
-                    <input type="date" class="form-control" name="deadline" id="deadline" placeholder="Deadline" value="{{ Carbon\Carbon::parse($task->deadline)->format('Y-m-d') }}" min="{{ date('Y-m-d') }}" required>
+                    <input type="date" class="form-control" name="deadline" id="deadline" placeholder="Deadline" value="{{ Carbon\Carbon::parse($task->deadline)->format('Y-m-d') }}" min="{{ Carbon\Carbon::parse($task->deadline)->format('Y-m-d') }}" required>
                     <label for="deadline">Deadline <span class="text-danger">*</span></label>
                 </div>
 
@@ -41,7 +41,7 @@
                 <select name="user" class="form-select" id="user" required>
                     <option style="display:none">Select Assigned Employee <span class="text-danger">*</span></option>
                     @forelse ($users as $user)
-                        <option value="{{ $user->id }}" @if ($task->user_id == $user->id) selected @endif>{{ $user->name }}</option>
+                        <option value="{{ $user->id }}" @if ($task->employee_id == $user->id) selected @endif>{{ $user->name }}</option>
                     @empty
 
                     @endforelse

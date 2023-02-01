@@ -7,7 +7,8 @@ use App\Http\Controllers\SignupController;
 use App\Http\Controllers\SigninController;
 use App\Http\Controllers\SignoutController;
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
 
 Route::middleware('guest')->group(function(){
     Route::get('/sign-up', [SignupController::class, 'index'])->name('sign-up.index');

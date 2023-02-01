@@ -4,7 +4,7 @@
 
 <div class="container">
     <div class="mt-5">
-        <a href="{{ route('tasks.index') }}" class="btn btn-secondary btn-md active mb-4" role="button" aria-pressed="true">< Go back</a>
+        <a href="{{ route('tasks.index') }}" class="btn btn-secondary btn-md active mb-4" role="button" aria-pressed="true">< Back</a>
 
         <form action="{{ route('tasks.store') }}" method="POST">
             @csrf

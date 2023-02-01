@@ -17,29 +17,37 @@
                     {{ session('error') }}
                 </div>
             @endif
-
+            <div class="text-center mb-3">
+                <h4>EDIT PROFILE</h4>
+            </div>
+            <div class="mb-3 mx-1">
+                <b>Account type:</b> {{ strtoupper(auth()->user()->type) }}
+            </div>
             <div class="form-floating mb-3">
-                <input type="text" class="form-control" name="fullname" id="fullname" placeholder="First name" value="{{ auth()->user()->name }}" required>
+                <input type="text" class="form-control" name="fullname" id="fullname" placeholder="First name" value="{{ auth()->user()->name }}" required disabled>
                 <label for="fullname">Fullname <span class="text-danger">*</span></label>
             </div>
             <div class="form-floating mb-3">
-                <input type="email" class="form-control" name="email" value="{{ auth()->user()->email }}" id="email" placeholder="Email">
+                <input type="email" class="form-control" name="email" value="{{ auth()->user()->email }}" id="email" placeholder="Email" disabled>
                 <label for="email">Email <span class="text-danger">*</span></label>
 
             </div>
-            <!--
-            <div class="form-floating mb-3" id="show_hide_password">
-                <input type="password" class="form-control" name="password" id="password" placeholder="Password">
-                <label for="password">Password</label>
-                <span id="showEye">
-                    <i class='bx bxs-hide' id="eye" onclick="showPassword(pass, eye)"></i>
-                </span>
-            </div>-->
 
             @include('components.form_errors')
 
-            <input style="width: 100%" type="submit" value="Save Changes" class="btn btn-primary mb-3">
+            <input style="width: 49.5%" type="button" value="Update Profile" class="btn btn-primary mb-3" onclick="enableForm(this)" id="update">
+            <input style="width: 49.5%" type="submit" value="Save Changes" id="save" class="btn btn-primary mb-3" disabled>
         </form>
     </div>
 </div>
+@endsection
+@section('scripts')
+<script>
+    function enableForm(button) {
+        document.getElementById('fullname').disabled = false
+        document.getElementById('email').disabled = false
+        document.getElementById('save').disabled = false
+        button.disabled = true
+    }
+</script>
 @endsection

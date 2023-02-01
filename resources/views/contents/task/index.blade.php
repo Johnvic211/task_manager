@@ -26,7 +26,7 @@
                     <th scope="col">#</th>
                     <th scope="col">TASK</th>
                     <th scope="col">ASSIGNED EMPLOYEE</th>
-                    <th scope="col">DEADLINE</th>
+                    <th scope="col" id="deadline">DEADLINE</th>
                     <th scope="col">STATUS</th>
                     <th scope="col">ACTION</th>
                 </tr>
@@ -68,11 +68,14 @@
         columns:[
             { data: 'id' },
             { data: 'name' },
-            { data: 'employee_name' },
+            { data: 'users.name' },
             { data: 'deadline' },
-            { data: 'status' },
+            { data: 'progress' },
             { data: 'actions' },
         ]
     });
+
+    document.getElementById('deadline').click()
+    document.getElementById('deadline').click()
 </script>
 @endsection

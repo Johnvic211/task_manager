@@ -24,9 +24,30 @@ class TaskController extends Controller
     public function table()
     {
         $tasks = Task::join('users', 'users.id', 'tasks.employee_id')
-        ->select('tasks.id', 'tasks.name', 'users.name as employee_name', 'tasks.name', DB::raw('DATE_FORMAT(tasks.deadline, "%m-%d-%Y") as deadline'), 'tasks.status')->where('tasks.user_id', Auth::user()->id);
+        ->select('tasks.id', 'tasks.name', 'users.name as users.name', DB::raw('DATE_FORMAT(tasks.deadline, "%m-%d-%Y") as deadline'), 'tasks.status')->where('tasks.user_id', Auth::user()->id);
 
         return DataTables::of($tasks)
+        ->addColumn('progress', function($task){
+            $progress = $task->status;
+
+            $progressBar = '<div class="progress"><div class="progress-bar';
+
+            if($progress > -1 && $progress < 26){
+                $progressBar .= ' bg-danger';
+            } elseif($progress > 25 && $progress < 51){
+                $progressBar .= ' bg-warning';
+            } elseif($progress > 50 && $progress < 76){
+                $progressBar .= ' bg-info';
+            } elseif($progress > 75 && $progress < 101){
+                $progressBar .= ' bg-success';
+            }
+
+            $progressBar .= '" role="progressbar" style="width: '. $progress .'%;" aria-valuenow="'. $progress .'" aria-valuemin="0" aria-valuemax="100">'.$progress.'%</div>
+                </div>
+            ';
+
+            return $progressBar;
+        })
         ->addColumn('actions', function($task){
             return '
                 <div class="d-flex flex-row bd-highlight mb-2" style="margin-top: 8px">
@@ -35,7 +56,7 @@ class TaskController extends Controller
                 </div>
             ';
         })
-        ->rawColumns(['actions'])
+        ->rawColumns(['progress','actions'])
         ->make(true);
     }
 
@@ -55,7 +76,7 @@ class TaskController extends Controller
                 'employee_id' => $request->user,
                 'deadline' => Carbon::createFromDate($request->deadline . $request->timee . ":00"),
                 'description' => $request->description,
-                'status' => 'Incomplete'
+                'status' => '0'
             ]);
 
             return redirect()->route('tasks.index')->with('success', 'Task has been published.');
